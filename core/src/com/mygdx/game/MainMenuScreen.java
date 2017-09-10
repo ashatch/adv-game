@@ -1,9 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +17,7 @@ public class MainMenuScreen extends ScreenAdapter {
   private final FitViewport viewport;
   private final Stage stage;
   private final BitmapFont font;
+  private final OrthographicCamera camera;
   private GameScreen gameScreen;
 
   @Inject
@@ -28,7 +29,8 @@ public class MainMenuScreen extends ScreenAdapter {
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
     this.font = new BitmapFont(Gdx.files.internal("fonts/lato_20/lato_20_bright.fnt"));
-    this.viewport = new FitViewport(width, height);
+    this.camera = new OrthographicCamera(width, height);
+    this.viewport = new FitViewport(width, height, camera);
     stage = new Stage(viewport);
   }
 
@@ -37,10 +39,10 @@ public class MainMenuScreen extends ScreenAdapter {
     Gdx.gl.glClearColor(0, 0, 0.2f, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//    camera.update();
-//    game.batch.setProjectionMatrix(camera.combined);
+    this.camera.update();
 
     final Batch batch = stage.getBatch();
+    batch.setProjectionMatrix(camera.combined);
 
     batch.begin();
     this.font.draw(batch, "Welcome", 100, 150);
