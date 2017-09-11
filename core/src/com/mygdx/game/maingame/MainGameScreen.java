@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.maingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,27 +9,32 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.AdvGame;
 
 import javax.inject.Inject;
 
-public class GameScreen extends ScreenAdapter {
+public class MainGameScreen extends ScreenAdapter {
+  private final GameEngine gameEngine;
   private Stage stage;
-  private Viewport viewport;
 
   @Inject
-  public GameScreen(final AdvGame game) {
+  public MainGameScreen(final GameEngine gameEngine) {
+    this.gameEngine = gameEngine;
+
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
-    this.viewport = new FitViewport(width, height);
-    stage = new Stage(viewport);
-    stage.addActor(new Image(new Texture(Gdx.files.internal("player/ef2000.png"))));
+    stage = new Stage(new FitViewport(width, height));
+    stage.addActor(this.gameEngine.getPlayer());
 
-    final InputMultiplexer inputMultiplexer = new InputMultiplexer();
-    Gdx.input.setInputProcessor(inputMultiplexer);
+//    Gdx.input.setInputProcessor(playerInput);
+//    final InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
   }
 
   @Override
   public void render(final float delta) {
+    gameEngine.update(delta);
+
     Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     stage.draw();

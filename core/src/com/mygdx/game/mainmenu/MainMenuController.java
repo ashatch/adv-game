@@ -1,23 +1,23 @@
 package com.mygdx.game.mainmenu;
 
 import com.mygdx.game.AdvGame;
-import com.mygdx.game.GameScreen;
+import com.mygdx.game.maingame.MainGameScreen;
 
 import javax.inject.Inject;
 
 public class MainMenuController {
 
   private final AdvGame game;
-  private final GameScreen gameScreen;
+  private final MainGameScreen mainGameScreen;
 
   @Inject
   public MainMenuController(final AdvGame game,
-                            final GameScreen gameScreen) {
+                            final MainGameScreen mainGameScreen) {
     this.game = game;
-    this.gameScreen = gameScreen;
+    this.mainGameScreen = mainGameScreen;
   }
 
   public void startGame() {
-    game.setScreen(this.gameScreen);
+    game.setScreen(this.mainGameScreen);
   }
 }
