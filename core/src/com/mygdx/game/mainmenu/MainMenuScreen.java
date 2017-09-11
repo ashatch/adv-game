@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -13,25 +13,25 @@ import javax.inject.Inject;
 
 public class MainMenuScreen extends ScreenAdapter {
 
-  private final AdvGame game;
-  private final FitViewport viewport;
   private final Stage stage;
   private final BitmapFont font;
   private final OrthographicCamera camera;
-  private GameScreen gameScreen;
+  private final MainMenuInput input;
 
   @Inject
-  public MainMenuScreen(final AdvGame game,
-                        final GameScreen gameScreen) {
-    this.game = game;
-    this.gameScreen = gameScreen;
+  public MainMenuScreen(final MainMenuInput input) {
+    this.input = input;
 
     float width = Gdx.graphics.getWidth();
     float height = Gdx.graphics.getHeight();
     this.font = new BitmapFont(Gdx.files.internal("fonts/lato_20/lato_20_bright.fnt"));
     this.camera = new OrthographicCamera(width, height);
-    this.viewport = new FitViewport(width, height, camera);
-    stage = new Stage(viewport);
+    stage = new Stage(new FitViewport(width, height, camera));
+  }
+
+  @Override
+  public void show () {
+    Gdx.input.setInputProcessor(input);
   }
 
   @Override
@@ -48,11 +48,6 @@ public class MainMenuScreen extends ScreenAdapter {
     this.font.draw(batch, "Welcome", 100, 150);
     this.font.draw(batch, "Tap anywhere to begin!", 100, 100);
     batch.end();
-
-    if (Gdx.input.isTouched()) {
-      game.setScreen(gameScreen);
-      dispose();
-    }
   }
 
   @Override
