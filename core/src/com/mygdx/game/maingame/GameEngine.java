@@ -21,6 +21,7 @@ public class GameEngine {
     player.update(delta);
 
     playerActor.setPosition(player.getX(), player.getY());
+    playerActor.setRotation(player.getAngle());
   }
 
   public Actor getPlayer() {
